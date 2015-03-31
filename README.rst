@@ -132,68 +132,79 @@ download server in software & update center set to main server
 2. Install DevStack
 ^^^^^^^^^^^^^^^^
 
-git clone https://git.openstack.org/openstack-dev/devstack
-cd devstack
-cp ./samples/local.conf local.conf (using the default configuration file)
-./stack.sh
+Install DevStack::
+
+    git clone https://git.openstack.org/openstack-dev/devstack
+    cd devstack
+    cp ./samples/local.conf local.conf (using the default configuration file)
+    ./stack.sh
+
 if everything works fine unstack devstack using ./unstack.sh before moving forward
 
 ^^^^^^^^^^^^^^
 3. Install Docker
 ^^^^^^^^^^^^^^
 
-sudo apt-get update
-sudo apt-get install docker.io
+Install Docker::
+
+    sudo apt-get update
+    sudo apt-get install docker.io
 
 ^^^^^^^^^^^^^^^^^^^^
 4. Install Nova-Docker
 ^^^^^^^^^^^^^^^^^^^^
 
-git clone https://git.openstack.org/stackforge/nova-docker /opt/stack/nova-docker
-cd /opt/stack/nova-docker
-sudo python setup.py install
+Install nova-docker driver::
+
+    git clone https://git.openstack.org/stackforge/nova-docker /opt/stack/nova-docker
+    cd /opt/stack/nova-docker
+    sudo python setup.py install
 
 ^^^^^^^^^^^^^^^^^^^^
 5. Prepare DevStack
 ^^^^^^^^^^^^^^^^^^^^
 
-export INSTALLDIR={DEVSTACK_PARENT_DIR (IN THIS CASE $HOME)}
-./opt/stack/nova-docker/contrib/devstack/prepare_devstack.sh
+DevStack prep::
+
+    export INSTALLDIR={DEVSTACK_PARENT_DIR (IN THIS CASE $HOME)}
+    ./opt/stack/nova-docker/contrib/devstack/prepare_devstack.sh
+
 make sure DATABASE_PASSWORD is set to the same value in localrc ~/devstack/localrc as is in ~/devstack/localconf
 also to make things easy for later change ADMIN_PASSWORD=admin in ~/devstack/localrc
 
 localrc
-following is the content in ~/devstacl/lcoalrc
+following is the content in ~/devstacl/lcoalrc::
 
-#disable nova net 
-disable_service n-net
+    #disable nova net 
+    disable_service n-net
 
-#enable neutron services
-enable_service q-svc
-enable_service q-agt
-enable_service q-dhcp
-enable_service q-l3
-enable_service q-meta
-enable_service neutron
+    #enable neutron services
+    enable_service q-svc
+    enable_service q-agt
+    enable_service q-dhcp
+    enable_service q-l3
+    enable_service q-meta
+    enable_service neutron
 
 
-export VIRT_DRIVER=docker
-export DEFAULT_IMAGE_NAME=cirros
-export NON_STANDARD_REQS=1
-export IMAGE_URLS=" "
-export VIRT_DRIVER=docker
-export DEFAULT_IMAGE_NAME=cirros
-export NON_STANDARD_REQS=1
-export IMAGE_URLS=" "
-DATABASE_PASSWORD=stackdb
-RABBIT_PASSWORD=55085e3154bfdf2c6f0f
-SERVICE_TOKEN=32f531a405fc1031bebb
-SERVICE_PASSWORD=b8223cf92af4627f7c8d
-ADMIN_PASSWORD=admin
+    export VIRT_DRIVER=docker
+    export DEFAULT_IMAGE_NAME=cirros
+    export NON_STANDARD_REQS=1
+    export IMAGE_URLS=" "
+    export DEFAULT_IMAGE_NAME=cirros
+    export NON_STANDARD_REQS=1
+    export IMAGE_URLS=" "
+    DATABASE_PASSWORD=stackdb
+    RABBIT_PASSWORD=55085e3154bfdf2c6f0f
+    SERVICE_TOKEN=32f531a405fc1031bebb
+    SERVICE_PASSWORD=b8223cf92af4627f7c8d
+    ADMIN_PASSWORD=admin
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 6. Install a Docker Filter
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Filter::
 
  sudo cp /opt/stack/nova-docker/etc/nova/rootwrap.d/docker.filters \
         /etc/nova/rootwrap.d/
@@ -202,5 +213,7 @@ ADMIN_PASSWORD=admin
 7. Stack!
 ^^^^^^^^^
 
-./stack.sh
+and finally::
+
+    ./stack.sh
 
